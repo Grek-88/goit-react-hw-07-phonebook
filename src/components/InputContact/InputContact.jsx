@@ -1,6 +1,6 @@
 import s from "../InputContact/InputContact.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { addContact } from "../../redux/actions";
+import { addContact } from "../../redux/actionOperation";
 
 export default function InputContact(props) {
   const contacts = useSelector((state) => state.contacts);
@@ -16,12 +16,18 @@ export default function InputContact(props) {
     ) {
       alert(`"${e.target.name.value}" is already in contacts.`);
     } else {
-      dispatch(addContact(e.target.name.value, e.target.number.value));
+      dispatch(
+        addContact({ name: e.target.name.value, number: e.target.number.value })
+      );
     }
 
     e.target.name.value = "";
     e.target.number.value = "";
   };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  // };
 
   return (
     <form className={s.form} onSubmit={handleSubmit}>
