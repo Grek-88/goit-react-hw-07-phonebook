@@ -1,16 +1,17 @@
 import s from "../InputContact/InputContact.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addContact } from "../../redux/actionOperation";
+import { getContacts } from "../../redux/contacts-selectors";
 
 export default function InputContact(props) {
-  const contacts = useSelector((state) => state.contacts);
+  const contacts = useSelector(getContacts);
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (
-      contacts.items.find(
+      contacts?.find(
         (el) => el.name.toLowerCase() === e.target.name.value.toLowerCase()
       )
     ) {
@@ -24,10 +25,6 @@ export default function InputContact(props) {
     e.target.name.value = "";
     e.target.number.value = "";
   };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  // };
 
   return (
     <form className={s.form} onSubmit={handleSubmit}>

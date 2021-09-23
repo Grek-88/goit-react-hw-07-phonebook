@@ -5,27 +5,39 @@ axios.defaults.baseURL = "http://localhost:3004/contacts";
 
 export const fetchContact = createAsyncThunk(
   "contacts/fetchContacts",
-  async () => {
-    const contacts = await axios.get();
-    return contacts.data;
+  async (_, { rejectWithValue }) => {
+    try {
+      const contacts = await axios.get();
+      return contacts.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
   }
 );
 
 export const addContact = createAsyncThunk(
   "contacts/addContacts",
-  async ({ name, number }) => {
-    const contacts = await axios.post("http://localhost:3004/contacts", {
-      name,
-      number,
-    });
-    return contacts.data;
+  async ({ name, number }, { rejectWithValue }) => {
+    try {
+      const contacts = await axios.post("http://localhost:3004/contacts", {
+        name,
+        number,
+      });
+      return contacts.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
   }
 );
 
 export const deleteContact = createAsyncThunk(
   "contacts/deleteContacts",
-  async () => {
-    const contacts = await axios.get("http://localhost:3004/contacts");
-    return contacts.data;
+  async (id, { rejectWithValue }) => {
+    try {
+      await axios.delete(`http://localhost:3004/contacts/${id}`);
+      return id;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
   }
 );
